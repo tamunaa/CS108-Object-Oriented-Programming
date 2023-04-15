@@ -96,7 +96,6 @@ public class JBrainTetris extends JTetris {
 
     @Override
     public Piece pickNextPiece() {
-
         status.setText("*ok*");
         int adversaryValue = adversary.getValue();
 
@@ -104,17 +103,27 @@ public class JBrainTetris extends JTetris {
             return super.pickNextPiece();
         }
 
-        Piece nxtPiece = super.pickNextPiece();
+        Piece nxtPiece = worstOption();
+        return nxtPiece;
+    }
 
-        double curScore = 0;
+    private Piece worstOption(){
+        Piece res = new Piece("");
+        double curScore = Double.MAX_VALUE;
+
         for (Piece piece : pieces) {
             board.undo();
             Brain.Move nxtMove = brain.bestMove(board, piece, board.getHeight(), null);
 
             if (nxtMove ==  null)continue;
-            curScore = Math.max(curScore, nxtMove.score);
+
+            if (curScore > nxtMove.score){
+                curScore = nxtMove.score;
+                res = piece;
+            }
         }
-        return nxtPiece;
+
+        return res;
     }
 
 }

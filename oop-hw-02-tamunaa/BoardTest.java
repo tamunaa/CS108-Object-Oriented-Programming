@@ -1,7 +1,5 @@
 import junit.framework.TestCase;
 
-import java.awt.desktop.AboutEvent;
-
 
 public class BoardTest extends TestCase {
 	private Board b;
